@@ -2,20 +2,20 @@ import os
 from pydub import AudioSegment
 
 
-def split_mp3_files(folder_path, chunk_duration=30):
+def split_mp3_files(path, chunk_duration=30):
     """
     Splits all .mp3 files in the specified folder into chunks of specified duration.
 
     Parameters:
-        folder_path (str): Path to the folder containing .mp3 files.
+        path (str): Path to the folder containing .mp3 files.
         chunk_duration (int): Duration of each chunk in seconds (default: 30 seconds).
     """
-    output_folder = os.path.join(folder_path, "split_audio")
+    output_folder = os.path.join(path, "split_audio")
     os.makedirs(output_folder, exist_ok=True)
 
-    for file_name in os.listdir(folder_path):
+    for file_name in os.listdir(path):
         if file_name.endswith(".mp3"):
-            file_path = os.path.join(folder_path, file_name)
+            file_path = os.path.join(path, file_name)
             try:
                 audio = AudioSegment.from_file(file_path)
                 duration_in_seconds = len(audio) / 1000  # Convert milliseconds to seconds
