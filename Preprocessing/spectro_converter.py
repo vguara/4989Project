@@ -1,9 +1,9 @@
 import os
-import numpy as np
+
 import matplotlib.pyplot as plt
+import numpy as np
 from pydub import AudioSegment
 from scipy.signal import spectrogram
-from concurrent.futures import ThreadPoolExecutor
 
 
 def generate_spectrogram(audio_path: str, output_path: str):
@@ -38,23 +38,18 @@ def generate_spectrogram(audio_path: str, output_path: str):
         print(f"Error processing {audio_path}: {e}")
 
 
-def process_audio_files(input_folder: str, output_folder: str, max_workers=5):
+def process_audio_files(input_folder: str, output_folder: str):
     """
-    Recursively processes all audio files in a folder, generating spectrograms, preserving the
-    folder structure in the output folder, and using parallel processing.
+    Recursively processes all audio files in a folder, generating spectrograms
+    and preserving the folder structure in the output folder.
     """
-    tasks = []
     for root, _, files in os.walk(input_folder):
         for file in files:
             if file.endswith(".mp3"):  # Supported audio formats
                 input_path = os.path.join(root, file)
                 relative_path = os.path.relpath(root, input_folder)
                 output_path = os.path.join(output_folder, relative_path, f"{os.path.splitext(file)[0]}.png")
-                tasks.append((input_path, output_path))
-
-    # Use ThreadPoolExecutor for parallel processing
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        executor.map(lambda task: generate_spectrogram(*task), tasks)
+                generate_spectrogram(input_path, output_path)
 
 
 if __name__ == "__main__":
