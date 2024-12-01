@@ -2,8 +2,8 @@ import os
 
 import matplotlib.pyplot as plt
 import numpy as np
-from pydub import AudioSegment
-from scipy.signal import spectrogram
+import librosa.feature
+import librosa
 
 
 def generate_spectrogram(audio_path: str, output_path: str):
@@ -11,26 +11,18 @@ def generate_spectrogram(audio_path: str, output_path: str):
     Converts an audio file into a black-and-white spectrogram and saves it as a PNG.
     """
     try:
-        # Load audio file
-        audio = AudioSegment.from_file(audio_path)
-        samples = np.array(audio.get_array_of_samples())
-        sample_rate = audio.frame_rate
+        y, sr = librosa.load(audio_path, sr=None)
 
-        # Compute the spectrogram
-        frequencies, times, spectro_data = spectrogram(samples, fs=sample_rate)
+        # Create a Mel spectrogram
+        spect_array = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128, fmax=8000)
+        spect_db = librosa.power_to_db(spect_array, ref=np.max)
 
-        # Convert spectrogram data to dB for better visualization
-        spectro_data = 10 * np.log10(spectro_data + 1e-10)  # Avoid log(0)
-
-        # Plot and save the spectrogram
-        plt.figure(figsize=(10, 5))
-        plt.pcolormesh(times, frequencies, spectro_data, shading='gouraud', cmap='gray')
-        plt.axis('off')  # Remove axes for a clean image
-        plt.tight_layout()
-
-        # Save as PNG
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
-        plt.savefig(output_path, dpi=300, bbox_inches='tight', pad_inches=0)
+        # Plot the spectrogram and save it
+        plt.figure(figsize=(10, 4))
+        plt.axis("off")  # Turn off axes
+        librosa.display.specshow(spect_db, sr=sr, cmap="gray", fmax=8000)
+        plt.subplots_adjust(left=0, right=1, top=1, bottom=0)  # Remove padding
+        plt.savefig(output_path, dpi=300, bbox_inches="tight", pad_inches=0)
         plt.close()
         print(f"Saved spectrogram to: {output_path}")
 
@@ -40,7 +32,7 @@ def generate_spectrogram(audio_path: str, output_path: str):
 
 def process_audio_files(input_folder: str, output_folder: str):
     """
-    Recursively processes all audio files in a folder, generating spectrograms
+    Recursively processes all audio files in a folder, generating App_Spectrograms
     and preserving the folder structure in the output folder.
     """
     for root, _, files in os.walk(input_folder):

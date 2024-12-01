@@ -9,9 +9,9 @@ import pygame  # For audio playback
 
 # Constants
 IMG_HEIGHT, IMG_WIDTH = 128, 128
-SPECTROGRAM_DIR = "spectrograms"
-COVERS_DIR = "covers"
-MP3_DIR = "mp3s"
+SPECTROGRAM_DIR = "App_Spectrograms"
+COVERS_DIR = "App_Covers"
+MP3_DIR = "App_Audio"
 MODEL_PATH = "spectrogram_classifier.h5"
 
 # Load the trained model
@@ -44,7 +44,7 @@ def get_cover_image(song_name, size=(50, 50)):
     if os.path.exists(cover_path):
         cover_image = Image.open(cover_path).resize(size)
     else:
-        cover_image = Image.open("covers/placeholder.jpeg").resize(size)
+        cover_image = Image.open("App_Covers/placeholder.jpeg").resize(size)
     return ImageTk.PhotoImage(cover_image)
 
 

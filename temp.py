@@ -5,8 +5,8 @@ import librosa
 import librosa.display
 
 # Constants
-MP3_FOLDER = "mp3s"  # Input folder containing .mp3 files
-SPECTROGRAM_FOLDER = "spectrograms"  # Output folder for spectrograms
+MP3_FOLDER = "App_Audio"  # Input folder containing .mp3 files
+SPECTROGRAM_FOLDER = "App_Spectrograms"  # Output folder for App_Spectrograms
 
 def generate_spectrogram(mp3_path, output_path):
     """
