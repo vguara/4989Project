@@ -7,8 +7,8 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 
 # Paths to the datasets
-dataset1_path = "ImageData/SunoAI/SunoCaps"
-dataset2_path = "ImageData/Real/GTZAN"
+dataset1_path = "../ImageData/SunoAI/SunoCaps"
+dataset2_path = "../ImageData/Real/GTZAN"
 
 # Image dimensions
 IMG_HEIGHT, IMG_WIDTH = 128, 128
@@ -52,7 +52,6 @@ model = Sequential([
     MaxPooling2D(2, 2),
     Flatten(),
     Dense(128, activation='relu'),
-    Dropout(0.5),
     Dense(1, activation='sigmoid')  # Binary output
 ])
 

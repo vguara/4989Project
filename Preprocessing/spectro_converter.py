@@ -3,6 +3,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 import librosa.feature
+import librosa.display
 import librosa
 
 
@@ -41,6 +42,7 @@ def process_audio_files(input_folder: str, output_folder: str):
                 input_path = os.path.join(root, file)
                 relative_path = os.path.relpath(root, input_folder)
                 output_path = os.path.join(output_folder, relative_path, f"{os.path.splitext(file)[0]}.png")
+                os.makedirs(os.path.dirname(output_path), exist_ok=True)
                 generate_spectrogram(input_path, output_path)
 
 
