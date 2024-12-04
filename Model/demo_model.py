@@ -39,8 +39,10 @@ dataset2_images, dataset2_labels = load_images_from_folder(dataset2_path, 1)
 images = np.concatenate([dataset1_images, dataset2_images], axis=0)
 labels = np.concatenate([dataset1_labels, dataset2_labels], axis=0)
 
+model_accuracy = []
+
 # Split the data into train and test sets
-X_train, X_test, y_train, y_test = train_test_split(images, labels, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(images, labels, test_size=0.2)
 
 # Build the model
 model = Sequential([
@@ -56,15 +58,13 @@ model = Sequential([
 ])
 
 # Compile the model
-model.compile(optimizer='adam',
-              loss='binary_crossentropy',
-              metrics=['accuracy'])
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
 # Train the model
 print("Training the model...")
 history = model.fit(
     X_train, y_train,
-    epochs=10,
+    epochs=20,
     validation_split=0.2,
     batch_size=32
 )
