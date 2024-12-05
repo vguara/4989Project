@@ -1,10 +1,4 @@
-# 4989Project
-Data: .mp3  192kbps  30s
+## Instructions
 
-## Preprocessing Music
-
-## Training the Model
-
-## Testing the Model
-
-## Demonstrating the Model
+1. Install dependencies by running `pip install -r requirements.txt`
+2. Then run the gui by using `python3 gui.py`
